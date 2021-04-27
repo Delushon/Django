@@ -6,13 +6,7 @@ from django.template.response import TemplateResponse
 
 
 def index(request):
-    header = "Personal Data"                    # обычная переменная
-    langs = ["English", "German", "Spanish"]    # массив
-    user ={"name" : "Tom", "age" : 23}          # словарь
-    addr = ("Абрикосовая", 23, 45)              # кортеж
- 
-    data = {"header": header, "langs": langs, "user": user, "address": addr}
-    return TemplateResponse(request,  "index.html", data)
+    return render(request,  "index.html")
 
 
 def about(request):
