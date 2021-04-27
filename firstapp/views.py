@@ -6,7 +6,8 @@ from django.template.response import TemplateResponse
 
 
 def index(request):
-    return render(request,  "index.html")
+    langs = ["English", "German", "French", "Spanish", "Chinese"]
+    return render(request, "index.html", context={"langs": langs})
 
 
 def about(request):
