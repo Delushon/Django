@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
-    <title>Hello Django</title>
+    <title>Django Forms</title>
 </head>
+
 <body>
-    <ul>
-        {% for lan in langs %}
-        <li>{{ lan }}</li>
-        {% endfor %}
-    </ul>
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form }}
+        </table>
+        <input type="submit" value="Send">
+    </form>
 </body>
+
 </html>

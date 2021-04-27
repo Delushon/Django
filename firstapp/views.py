@@ -3,11 +3,17 @@ from django.shortcuts import render
 from django.contrib import admin
 from firstapp import views
 from django.template.response import TemplateResponse
+from .forms import UserForm
 
 
 def index(request):
-    langs = ["English", "German", "French", "Spanish", "Chinese"]
-    return render(request, "index.html", context={"langs": langs})
+    if request.method == "POST":
+        name = request.POST.get("name")
+        # age = request.POST.get("age")     # получение значения поля age
+        return HttpResponse("<h2>Hello, {0}</h2>".format(name))
+    else:
+        userform = UserForm()
+        return render(request, "index.html", {"form": userform})
 
 
 def about(request):
