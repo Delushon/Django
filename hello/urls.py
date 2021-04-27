@@ -18,8 +18,9 @@ from django.urls import path, include, re_path
 from firstapp import views
 
 urlpatterns = [
-    path('', views.index),
-    re_path(r'^about/contact', views.contact),
-    re_path(r'^about', views.about),
-    path('admin/', admin.site.urls),
+    path('products/', views.products),
+    path('products/<int:productid>/', views.products),
+     
+    path('users/', views.users),
+    path('users/<int:id>/<str:name>/', views.users),
 ]
