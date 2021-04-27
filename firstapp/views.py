@@ -1,12 +1,14 @@
 from django.http import *
-
+from django.shortcuts import render
+from django.contrib import admin
+from firstapp import views
 
 def index(request):
-    return HttpResponse("Index")
+    return render(request, "index.html")
 
 
 def about(request):
-    return HttpResponse("About")
+    return render(request, "firstapp/home.html")
 
 
 def contact(request):
@@ -39,4 +41,3 @@ def m405(request):
 
 def m410(request):
     return HttpResponseGone("<h2>Content is no longer here</h2>")
-
