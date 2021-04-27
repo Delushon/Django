@@ -7,13 +7,13 @@ from .forms import UserForm
 
 
 def index(request):
+    userform = UserForm()
     if request.method == "POST":
-        name = request.POST.get("name")
-        # age = request.POST.get("age")     # получение значения поля age
-        return HttpResponse("<h2>Hello, {0}</h2>".format(name))
-    else:
-        userform = UserForm()
-        return render(request, "index.html", {"form": userform})
+        userform = UserForm(request.POST)
+        if userform.is_valid():
+            name = userform.cleaned_data["name"]
+            return HttpResponse("<h2>Hello, {0}</h2>".format(name))
+    return render(request, "index.html", {"form": userform})
 
 
 def about(request):
