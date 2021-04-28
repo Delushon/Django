@@ -4,16 +4,26 @@ from django.contrib import admin
 from firstapp import views
 from django.template.response import TemplateResponse
 from .forms import UserForm
+from django.http import HttpResponseRedirect
+from .models import Person
+
+# получение данных из бд
 
 
 def index(request):
-    userform = UserForm()
+    people = Person.objects.all()
+    return render(request, "index.html", {"people": people})
+
+# сохранение данных в бд
+
+
+def create(request):
     if request.method == "POST":
-        userform = UserForm(request.POST)
-        if userform.is_valid():
-            name = userform.cleaned_data["name"]
-            return HttpResponse("<h2>Hello, {0}</h2>".format(name))
-    return render(request, "index.html", {"form": userform})
+        tom = Person()
+        tom.name = request.POST.get("name")
+        tom.age = request.POST.get("age")
+        tom.save()
+    return HttpResponseRedirect("/")
 
 
 def about(request):
