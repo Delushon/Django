@@ -1,62 +1,42 @@
-from django.http import *
 from django.shortcuts import render
-from django.contrib import admin
-from firstapp import views
-from django.template.response import TemplateResponse
-from .forms import UserForm
 from django.http import HttpResponseRedirect
+from django.http import HttpResponseNotFound
 from .models import Person
-
+ 
 # получение данных из бд
-
-
 def index(request):
     people = Person.objects.all()
     return render(request, "index.html", {"people": people})
-
+ 
 # сохранение данных в бд
-
-
 def create(request):
     if request.method == "POST":
-        tom = Person()
-        tom.name = request.POST.get("name")
-        tom.age = request.POST.get("age")
-        tom.save()
+        person = Person()
+        person.name = request.POST.get("name")
+        person.age = request.POST.get("age")
+        person.save()
     return HttpResponseRedirect("/")
-
-
-def about(request):
-    return render(request, "firstapp/home.html")
-
-
-def contact(request):
-    return HttpResponseRedirect("/about")
-
-
-def details(request):
-    return HttpResponsePermanentRedirect("/")
-
-
-def m304(request):
-    return HttpResponseNotModified()
-
-
-def m400(request):
-    return HttpResponseBadRequest("<h2>Bad Request</h2>")
-
-
-def m403(request):
-    return HttpResponseForbidden("<h2>Forbidden</h2>")
-
-
-def m404(request):
-    return HttpResponseNotFound("<h2>Not Found</h2>")
-
-
-def m405(request):
-    return HttpResponseNotAllowed("<h2>Method is not allowed</h2>")
-
-
-def m410(request):
-    return HttpResponseGone("<h2>Content is no longer here</h2>")
+ 
+# изменение данных в бд
+def edit(request, id):
+    try:
+        person = Person.objects.get(id=id)
+ 
+        if request.method == "POST":
+            person.name = request.POST.get("name")
+            person.age = request.POST.get("age")
+            person.save()
+            return HttpResponseRedirect("/")
+        else:
+            return render(request, "edit.html", {"person": person})
+    except Person.DoesNotExist:
+        return HttpResponseNotFound("<h2>Person not found</h2>")
+     
+# удаление данных из бд
+def delete(request, id):
+    try:
+        person = Person.objects.get(id=id)
+        person.delete()
+        return HttpResponseRedirect("/")
+    except Person.DoesNotExist:
+        return HttpResponseNotFound("<h2>Person not found</h2>")
