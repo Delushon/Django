@@ -5,9 +5,24 @@
         
     <meta charset="utf-8" />
         <title>Django Forms</title>
+        <style>
+        .alert {
+            color: red
+        }
+
+        .form-group {
+            margin: 10px 0;
+        }
+
+        .form-group input {
+            width: 250px;
+            height: 25px;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 
-<body>
+<body class="container">
         <form method="POST" novalidate>
                 {% csrf_token %}
                 <div>
@@ -15,7 +30,13 @@
                     <div class="form-group">
                             {{field.label_tag}}
                             <div>{{field}}</div>
-                            <div class="error">{{field.errors}}</div>
+                            {% if field.errors%}
+                            {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                    {{error}}
+                                </div>
+                            {% endfor %}
+                            {% endif %}
                         </div>
                     {% endfor %}
                     </div>
